@@ -1,9 +1,11 @@
 var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var answersElement = document.getElementById('answers');
+var resultsElement = document.getElementById('test-resutls');
 var count = 0;
 var testIsOver = false;
 var rightAnswers = 0;
+var secondsLeft = 10;
 
 /*
     Function countdown
@@ -11,24 +13,22 @@ var rightAnswers = 0;
     input: none
     return: none
 */
-function countdown() {
-  var secondsLeft = 10;
-  
+function countdown() { 
       var timeInterval = setInterval(function () {
         if (!testIsOver) {
             secondsLeft--;
             mainEl.textContent = secondsLeft ;
             
-            if(secondsLeft === 0) {
+            if(secondsLeft < 0) {
                 clearInterval(timeInterval);
                 mainEl.textContent = "";
                 questionElement.textContent = "Time's Up!!!!";
-                answersElement.textContent = "You had " + rightAnswers +" correct answers";
+                //TODO remove multiple choice when timer expires
+                resultsElement.textContent = "You had " + rightAnswers +" correct answers";
             }
             //TODO: add code to capture and display the results
         }
     }, 1000);
-  
 }
 
 function addQuestion(questionNumber) {
@@ -45,7 +45,10 @@ function addQuestion(questionNumber) {
             console.log(questions[count].rightAnswer === e.target.textContent);
             if(questions[count].rightAnswer === e.target.textContent) {
                 rightAnswers++;
+            } else {
+                secondsLeft = secondsLeft - 10;
             }
+            //TODO add to a spearate method
             child = answersElement.lastElementChild; 
             while (child) {
                 answersElement.removeChild(child);
@@ -56,24 +59,11 @@ function addQuestion(questionNumber) {
                 addQuestion(count);
             } else {
                 questionElement.textContent = "Test is over. "
-                answersElement.textContent = "You had " + rightAnswers + " correct answers";
+                resultsElement.textContent = "You had " + rightAnswers + " correct answers";
                 testIsOver = true;
             }
         }
     }
-
-
-    // var seconds = 60;
-    // var timeInterval = setInterval(function () {
-    //     seconds --;
-    //     questionElement.textContent = "Q " + questions[seconds%5].questionText;
-
-
-    //     if (seconds === 0) {
-    //         clearInterval(timeInterval);
-    //         questionElement.textContent = "No more questions";
-    //     }
-    // }, 5000);
 }
 
 
@@ -98,16 +88,19 @@ function addQuestion(questionNumber) {
         
     
     3. capture quiz answers
-        3.1 capture clicks on the ul element --DONE
-        3.2 switch the question on clicks --DONE
-        3.3 track correct answers --DONE
-        3.4 reduce timer on incorrect answers
+    //    3.1 capture clicks on the ul element --DONE
+    //    3.2 switch the question on clicks --DONE
+    //    3.3 track correct answers --DONE
+    //    3.4 reduce timer on incorrect answers --DONE
 
     4. when timer expires, show correct answers
+        4.1 clear all the pending answers is any 
+        4.2 show the results 
     5. prompt for initials 
     6. show highest scores
     7. update CSS
         7.1 add css to the UL element to change color on mouse over
+
     
 */
 
