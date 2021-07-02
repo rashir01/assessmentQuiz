@@ -2,6 +2,7 @@ var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var answersElement = document.getElementById('answers');
 var count = 0;
+var testIsOver = false;
 
 /*
     Function countdown
@@ -11,22 +12,26 @@ var count = 0;
 */
 function countdown() {
   var secondsLeft = 10;
-  var timeInterval = setInterval(function () {
-    secondsLeft--;
-    mainEl.textContent = secondsLeft ;
-    
-    if(secondsLeft === 0) {
-      clearInterval(timeInterval);
-      mainEl.textContent = "";
-      questionElement.textContent = "Time's Up!!!!";
-      answersElement.textContent = "";
-      //TODO: add code to capture and display the results
-    }
-  }, 1000);
+  
+      var timeInterval = setInterval(function () {
+        if (!testIsOver) {
+            secondsLeft--;
+            mainEl.textContent = secondsLeft ;
+            
+            if(secondsLeft === 0) {
+                clearInterval(timeInterval);
+                mainEl.textContent = "";
+                questionElement.textContent = "Time's Up!!!!";
+                answersElement.textContent = "";
+            }
+            //TODO: add code to capture and display the results
+        }
+    }, 1000);
+  
 }
 
 function addQuestion(questionNumber) {
-
+    
     questionElement.textContent = "Q " + questions[questionNumber].questionText;
     for (let i = 0; i < questions[questionNumber].possibleAnswers.length; i++) {
         var currentPossibleAnswer = questions[questionNumber].possibleAnswers[i];
@@ -47,6 +52,7 @@ function addQuestion(questionNumber) {
                 addQuestion(count);
             } else {
                 questionElement.textContent = "test is over";
+                testIsOver = true;
             }
         }
     }
@@ -74,6 +80,7 @@ function addQuestion(questionNumber) {
         0.2 on click make the button disappear
         0.3 on click show the counter and the first question
     1. show the timer counting down -DONE
+        1.1 stop timer when all questions are answer --DONE
     2. show quizz questions 
         2.1 create quiz object -DONE 
         2.2 quiz object contains a question, up to 4 answers, and a correct answer identifier - DONE
@@ -83,6 +90,7 @@ function addQuestion(questionNumber) {
             2.4.2 quiz answers should be shown as a an ordered list --DONE
         2.5 use a json file to create a list of questions and populate them --DONE
         2.6 add logic to decide which question to display
+        
     
     3. capture quiz answers
         3.1 capture clicks on the ul element
