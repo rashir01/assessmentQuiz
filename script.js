@@ -10,14 +10,16 @@ var count = 0;
     return: none
 */
 function countdown() {
-  var secondsLeft = 60;
+  var secondsLeft = 10;
   var timeInterval = setInterval(function () {
     secondsLeft--;
     mainEl.textContent = secondsLeft ;
     
     if(secondsLeft === 0) {
       clearInterval(timeInterval);
-      mainEl.textContent = "Times up!!!!";
+      mainEl.textContent = "";
+      questionElement.textContent = "Time's Up!!!!";
+      answersElement.textContent = "";
       //TODO: add code to capture and display the results
     }
   }, 1000);
@@ -41,9 +43,11 @@ function addQuestion(questionNumber) {
                 child = answersElement.lastElementChild;
             }
             count++;
-            if(count === questions.length) { count = 0;}
-            //checkAnswer
-            addQuestion(count);
+            if(count < questions.length) { 
+                addQuestion(count);
+            } else {
+                questionElement.textContent = "test is over";
+            }
         }
     }
 
