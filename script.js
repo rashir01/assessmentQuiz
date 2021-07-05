@@ -1,10 +1,11 @@
-const testTime = 20
+const testTime = 20;
 var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var multipleChoicesElement = document.getElementById('answers');
 var resultsElement = document.getElementById('test-resutls');
+var answerStatusEl = document.getElementById('answer-status');
+
 var count = 0;
-var testIsOver = false;
 var rightAnswers = 0;
 var secondsLeft = testTime;
 var rightAnswerRecord = 0;
@@ -18,15 +19,13 @@ var timeInterval;
 */
 function countdown() { 
     timeInterval = setInterval(function () {
-        if (!testIsOver) {
-            secondsLeft--;
-            mainEl.textContent = secondsLeft ;
-            
-            if(secondsLeft < 0) {               
-                mainEl.textContent = "Time's Up!!!!";
-                stopTest();
-            }
-        } 
+        secondsLeft--;
+        mainEl.textContent = secondsLeft ;
+        
+        if(secondsLeft < 0) {               
+            mainEl.textContent = "Time's Up!!!!";
+            stopTest();
+        }
     }, 1000);
 
 
@@ -34,6 +33,7 @@ function countdown() {
 
 function stopTest() {
     clearQuestion();
+    answerStatusEl.textContent = "";
     clearInterval(timeInterval);
     setTimeout(checkHighScore,0);
  }
@@ -58,7 +58,6 @@ function startTest() {
 
 function resetValues() {
     count = 0;
-    testIsOver = false;
     rightAnswers = 0;
     secondsLeft = testTime;
 }
@@ -76,7 +75,9 @@ function clearQuestion () {
 function processAnswer() {
     if(questionsArray[count].rightAnswer === this.textContent) {
         rightAnswers++;
+        answerStatusEl.textContent = "Correct!";
     } else {
+        answerStatusEl.textContent = "Wrong!!"
         secondsLeft = secondsLeft - 10;
     }
     count++;
