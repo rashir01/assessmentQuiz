@@ -1,15 +1,18 @@
 const testTime = 20;
+const timePenalty = 10;
 var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var multipleChoicesElement = document.getElementById('answers');
-var resultsElement = document.getElementById('test-resutls');
 var answerStatusEl = document.getElementById('answer-status');
+var finalScoreEl = document.getElementById('final-score');
+var testResults = document.getElementById('test-results');
 
 var count = 0;
 var rightAnswers = 0;
 var secondsLeft = testTime;
 var rightAnswerRecord = 0;
 var timeInterval;
+var scores = [];
 
 /*
     Function countdown
@@ -34,32 +37,58 @@ function countdown() {
 function stopTest() {
     clearQuestion();
     answerStatusEl.textContent = "";
+    mainEl.textContent = "";
     clearInterval(timeInterval);
-    setTimeout(checkHighScore,0);
+    checkHighScore();
+    promptForInitials();
  }
 
-function checkHighScore() {
-    let tryAgain = false;
-    if (rightAnswers > rightAnswerRecord) {
-        //get user initials
-        rightAnswerRecord = rightAnswers;
-    } 
-    tryAgain = confirm ('Try again?');
-    if (tryAgain) {
-        startTest();
+function promptForInitials() {
+    var initials = "";
+    var input = document.createElement("input");
+    input.type = "text";
+    input.name = "initials";
+    // input.defaultValue = "Enter initials";
+    input.placeholder = "Enter initials";
+    console.log("input" + input);
+    console.log("testResults" + testResults);
+    testResults.appendChild(input);
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Submit";
+    btn.onclick = function () {
+        initials = input.value;
+        scores.push (initials + " " + rightAnswers);
+        console.log(scores);
     }
+    testResults.appendChild(btn);
+
+    //scores.push("randome name " + rightAnswers);
+    
+
+}
+
+function checkHighScore() {
+    console.log("inside check high score! ");
+    questionElement.textContent = "All Done!";
+    finalScoreEl.textContent = "You answered " + rightAnswers + " questions correctly";
 }
 
 function startTest() {
     countdown();
-    resetValues();
+    clearAllElements();
     addQuestion(0);
 }
 
-function resetValues() {
+function clearAllElements() {
     count = 0;
     rightAnswers = 0;
     secondsLeft = testTime;
+    mainEl.textContent = "";
+    questionElement.textContent = "";
+    multipleChoicesElement.textContent = "";
+    answerStatusEl.textContent = "";
+    finalScoreEl.textContent = "";
 }
 
 function clearQuestion () {
@@ -78,7 +107,7 @@ function processAnswer() {
         answerStatusEl.textContent = "Correct!";
     } else {
         answerStatusEl.textContent = "Wrong!!"
-        secondsLeft = secondsLeft - 10;
+        secondsLeft = secondsLeft - timePenalty;
     }
     count++;
     if(count < questionsArray.length) { 
@@ -109,6 +138,7 @@ function addQuestion(questionNumber) {
         0.1 show the button that says start
         0.2 on click make the button disappear
         0.3 on click show the counter and the first question
+    
     //1. show the timer counting down -DONE
     //    1.1 stop timer when all questions are answer --DONE
     //2. show quizz questions 
@@ -119,23 +149,35 @@ function addQuestion(questionNumber) {
     //        2.4.1 quiz question should be shown by iteslef --DONE
     //        2.4.2 quiz answers should be shown as a an ordered list --DONE
     //    2.5 use a json file to create a list of questions and populate them --DONE
-    //   2.6 add logic to decide which question to display
-        
-    
+    //   2.6 add logic to decide which question to display --DONE
     3. capture quiz answers
     //    3.1 capture clicks on the ul element --DONE
     //    3.2 switch the question on clicks --DONE
     //    3.3 track correct answers --DONE
     //    3.4 reduce timer on incorrect answers --DONE
-
-    4. when timer expires, show correct answers
+    //4. when timer expires, show correct answers
     //    4.1 clear all the pending answers is any --DONE
     //    4.2 show the results -DONE
 
     5. prompt for initials 
-    6. show highest scores
-    7. update CSS
-        7.1 add css to the UL element to change color on mouse over
+        //5.1 show a text field for the initials --DONE
+        //5.2 add submit button  --DONE
+        // 5.3 capture the input of the initials and store it with the score -- DONE
+        5.4 when the submit button is clicked go to the highscroes view
+    
+
+    6. process high scores
+        6.1 view the high scores
+        6.2 add go back button 
+        6.3 add clear scores button 
+        6.4 add functionality to clear scores
+            6.4.1 remove the display of high scores
+        6.5 add functionality to go back
+            6.5.1 takes you to start quiz button 
+
+    7. show highest scores
+    8. update CSS
+        8.1 add css to the UL element to change color on mouse over
 
     
 */
