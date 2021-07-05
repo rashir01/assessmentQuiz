@@ -1,11 +1,14 @@
+const testTime = 20
 var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
-var answersElement = document.getElementById('answers');
+var multipleChoicesElement = document.getElementById('answers');
 var resultsElement = document.getElementById('test-resutls');
 var count = 0;
 var testIsOver = false;
 var rightAnswers = 0;
-var secondsLeft = 10;
+var secondsLeft = testTime;
+var rightAnswerRecord = 0;
+var timeInterval;
 
 /*
     Function countdown
@@ -14,55 +17,86 @@ var secondsLeft = 10;
     return: none
 */
 function countdown() { 
-      var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
         if (!testIsOver) {
             secondsLeft--;
             mainEl.textContent = secondsLeft ;
             
-            if(secondsLeft < 0) {
-                clearInterval(timeInterval);
-                mainEl.textContent = "";
-                questionElement.textContent = "Time's Up!!!!";
-                //TODO remove multiple choice when timer expires
-                resultsElement.textContent = "You had " + rightAnswers +" correct answers";
+            if(secondsLeft < 0) {               
+                mainEl.textContent = "Time's Up!!!!";
+                stopTest();
             }
-            //TODO: add code to capture and display the results
-        }
+        } 
     }, 1000);
+
+
+}
+
+function stopTest() {
+    clearQuestion();
+    clearInterval(timeInterval);
+    setTimeout(checkHighScore,0);
+ }
+
+function checkHighScore() {
+    let tryAgain = false;
+    if (rightAnswers > rightAnswerRecord) {
+        //get user initials
+        rightAnswerRecord = rightAnswers;
+    } 
+    tryAgain = confirm ('Try again?');
+    if (tryAgain) {
+        startTest();
+    }
+}
+
+function startTest() {
+    countdown();
+    resetValues();
+    addQuestion(0);
+}
+
+function resetValues() {
+    count = 0;
+    testIsOver = false;
+    rightAnswers = 0;
+    secondsLeft = testTime;
+}
+
+function clearQuestion () {
+    questionElement.textContent = "";
+    var listItemEl = multipleChoicesElement.lastElementChild; 
+    while (listItemEl) {
+        multipleChoicesElement.removeChild(listItemEl);
+        listItemEl = multipleChoicesElement.lastElementChild;
+    }
+    
+}
+
+function processAnswer() {
+    if(questionsArray[count].rightAnswer === this.textContent) {
+        rightAnswers++;
+    } else {
+        secondsLeft = secondsLeft - 10;
+    }
+    count++;
+    if(count < questionsArray.length) { 
+        addQuestion(count);
+    } else {
+        stopTest();
+    }
 }
 
 function addQuestion(questionNumber) {
-    
-    questionElement.textContent = "Q " + questions[questionNumber].questionText;
-    for (let i = 0; i < questions[questionNumber].possibleAnswers.length; i++) {
-        var currentPossibleAnswer = questions[questionNumber].possibleAnswers[i];
-        var tag = document.createElement("li");
-        var text = document.createTextNode(currentPossibleAnswer);
-        tag.appendChild(text);
-        answersElement.appendChild(tag);
-        tag.onclick = function (e) {
-            console.log(e.target.textContent); 
-            console.log(questions[count].rightAnswer === e.target.textContent);
-            if(questions[count].rightAnswer === e.target.textContent) {
-                rightAnswers++;
-            } else {
-                secondsLeft = secondsLeft - 10;
-            }
-            //TODO add to a spearate method
-            child = answersElement.lastElementChild; 
-            while (child) {
-                answersElement.removeChild(child);
-                child = answersElement.lastElementChild;
-            }
-            count++;
-            if(count < questions.length) { 
-                addQuestion(count);
-            } else {
-                questionElement.textContent = "Test is over. "
-                resultsElement.textContent = "You had " + rightAnswers + " correct answers";
-                testIsOver = true;
-            }
-        }
+    clearQuestion();
+    questionElement.textContent = "Q " + (questionNumber + 1) + ". " + questionsArray[questionNumber].questionText;
+    for (let i = 0; i < questionsArray[questionNumber].possibleAnswers.length; i++) {
+        var currentPossibleAnswer = questionsArray[questionNumber].possibleAnswers[i];
+        var listItemEl = document.createElement("li");
+        var MultipleChoiceAnswerTextNode = document.createTextNode(currentPossibleAnswer);
+        listItemEl.appendChild(MultipleChoiceAnswerTextNode);
+        multipleChoicesElement.appendChild(listItemEl);
+        listItemEl.onclick = processAnswer;
     }
 }
 
@@ -94,8 +128,9 @@ function addQuestion(questionNumber) {
     //    3.4 reduce timer on incorrect answers --DONE
 
     4. when timer expires, show correct answers
-        4.1 clear all the pending answers is any 
-        4.2 show the results 
+    //    4.1 clear all the pending answers is any --DONE
+    //    4.2 show the results -DONE
+
     5. prompt for initials 
     6. show highest scores
     7. update CSS
@@ -104,7 +139,5 @@ function addQuestion(questionNumber) {
     
 */
 
-
-countdown();
-addQuestion(count);
+startTest();
 

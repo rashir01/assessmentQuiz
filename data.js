@@ -10,7 +10,7 @@ class Question {
     }
 }
 
-questions = [
+questionsArray = [
     new Question ("Which of the following is an advantage of using JavaScript?", ["Less server interaction", "Immediate feedback to the visitors", "Increased interactivity", "All of the above."], "All of the above."),
     new Question ("Can you assign a anonymous function to a variable?", ["true", "false"], "true"),
     new Question ("Which built-in method combines the text of two strings and returns a new string?", ["append()", "concat()", "attach()", "None of the above."], "concat()"), 
