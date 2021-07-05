@@ -12,7 +12,7 @@ var rightAnswers = 0;
 var secondsLeft = testTime;
 var rightAnswerRecord = 0;
 var timeInterval;
-var scores = [];
+var scores = ["test 1", "test 2", "test 3"];
 
 /*
     Function countdown
@@ -60,11 +60,21 @@ function promptForInitials() {
         initials = input.value;
         scores.push (initials + " " + rightAnswers);
         console.log(scores);
+        showScoresPage();
     }
     testResults.appendChild(btn);
+}
 
-    //scores.push("randome name " + rightAnswers);
-    
+function showScoresPage() {
+    clearAllElements();
+    mainEl.textContent = "High Scores";
+    let highScoreListEl = document.createElement("ul");
+    mainEl.appendChild(highScoreListEl);
+    for(let i = 0; i < scores.length; i++) {
+        let highScoreListItemEl = document.createElement("li");
+        highScoreListItemEl.textContent = scores[i];
+        highScoreListEl.appendChild(highScoreListItemEl);
+    }
 
 }
 
@@ -89,6 +99,7 @@ function clearAllElements() {
     multipleChoicesElement.textContent = "";
     answerStatusEl.textContent = "";
     finalScoreEl.textContent = "";
+    testResults.innerHTML = "";
 }
 
 function clearQuestion () {
@@ -163,10 +174,11 @@ function addQuestion(questionNumber) {
         //5.1 show a text field for the initials --DONE
         //5.2 add submit button  --DONE
         // 5.3 capture the input of the initials and store it with the score -- DONE
-        5.4 when the submit button is clicked go to the highscroes view
+        5.4 when the submit button is clicked go to the highscroes view --DONE
     
 
     6. process high scores
+        6.0 Set welcome text
         6.1 view the high scores
         6.2 add go back button 
         6.3 add clear scores button 
