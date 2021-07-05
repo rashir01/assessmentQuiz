@@ -54,15 +54,15 @@ function promptForInitials() {
     console.log("testResults" + testResults);
     testResults.appendChild(input);
 
-    let btn = document.createElement("button");
-    btn.innerHTML = "Submit";
-    btn.onclick = function () {
+    let submitInitialsBtn = document.createElement("button");
+    submitInitialsBtn.innerHTML = "Submit";
+    submitInitialsBtn.onclick = function () {
         initials = input.value;
         scores.push (initials + " " + rightAnswers);
         console.log(scores);
         showScoresPage();
     }
-    testResults.appendChild(btn);
+    testResults.appendChild(submitInitialsBtn);
 }
 
 function showScoresPage() {
@@ -75,6 +75,18 @@ function showScoresPage() {
         highScoreListItemEl.textContent = scores[i];
         highScoreListEl.appendChild(highScoreListItemEl);
     }
+
+    let clearScoresButton = document.createElement("button");
+    clearScoresButton.innerHTML = "Clear Scores";
+    clearScoresButton.onclick = function() {
+        scores = [];
+        showScoresPage();
+    }
+    let goBackButton = document.createElement("button");
+    goBackButton.innerHTML = "Go Back";
+    goBackButton.onclick = startTest;
+    mainEl.appendChild(clearScoresButton);
+    mainEl.appendChild(goBackButton);
 
 }
 
@@ -178,8 +190,8 @@ function addQuestion(questionNumber) {
     
 
     6. process high scores
-        6.0 Set welcome text
-        6.1 view the high scores
+        //6.0 Set welcome text --DONE
+        //6.1 view the high scores --DONE
         6.2 add go back button 
         6.3 add clear scores button 
         6.4 add functionality to clear scores
