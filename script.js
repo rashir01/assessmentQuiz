@@ -6,6 +6,7 @@ var multipleChoicesElement = document.getElementById('answers');
 var answerStatusEl = document.getElementById('answer-status');
 var finalScoreEl = document.getElementById('final-score');
 var testResults = document.getElementById('test-results');
+var container = document.getElementsByClassName('container');
 
 var count = 0;
 var rightAnswers = 0;
@@ -30,8 +31,12 @@ function countdown() {
             stopTest();
         }
     }, 1000);
+}
 
+function showWelcomePage() {
 
+    
+    
 }
 
 function stopTest() {
@@ -97,9 +102,21 @@ function checkHighScore() {
 }
 
 function startTest() {
-    countdown();
-    clearAllElements();
-    addQuestion(0);
+    let container = document.getElementsByClassName('container');
+    let welcome = document.getElementsByClassName('welcome');
+    container.textContent = "";
+    welcome.textContent = "Welcome to WebDev Quiz";
+    mainEl.textContent = "Try to answer as many questions as you can correctly. Keep in mind, wrong questions will have a time penalty of " + timePenalty + " seconds";
+
+    let startTestButton = document.createElement("button");
+    startTestButton.innerHTML = "Start Test";
+    startTestButton.onclick = function () {
+        clearAllElements();
+        countdown();
+        addQuestion(0);
+    }
+    mainEl.appendChild(document.createElement("br"));
+    mainEl.appendChild(startTestButton);
 }
 
 function clearAllElements() {
@@ -157,7 +174,7 @@ function addQuestion(questionNumber) {
 
 /*
     TODO: 
-    0. add start button to start the counter
+    0. add start button to start the counter 
         0.1 show the button that says start
         0.2 on click make the button disappear
         0.3 on click show the counter and the first question
@@ -192,14 +209,14 @@ function addQuestion(questionNumber) {
     6. process high scores
         //6.0 Set welcome text --DONE
         //6.1 view the high scores --DONE
-        6.2 add go back button 
-        6.3 add clear scores button 
-        6.4 add functionality to clear scores
-            6.4.1 remove the display of high scores
-        6.5 add functionality to go back
-            6.5.1 takes you to start quiz button 
+        // 6.2 add go back button --DONE
+        // 6.3 add clear scores button --DONE
+        // 6.4 add functionality to clear scores --DONE
+            // 6.4.1 remove the display of high scores --DONE
+        // 6.5 add functionality to go back --DONE
+            // 6.5.1 takes you to start quiz button  --DONE
 
-    7. show highest scores
+    // 7. show highest scores --DONE 
     8. update CSS
         8.1 add css to the UL element to change color on mouse over
 
