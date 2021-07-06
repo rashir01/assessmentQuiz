@@ -1,4 +1,4 @@
-const testTime = 20;
+const testTime = 500;
 const timePenalty = 10;
 var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');

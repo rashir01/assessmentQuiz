@@ -1,0 +1,22 @@
+body {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 10px;
+  }
+  
+
+ol li {
+  display:table; 
+  background-color: #c127f0;
+  color: #fff; 
+  margin: 5px 0px 5px 0px;
+
+} 
+ol li:hover {
+    background-color: rgb(128, 3, 86);
+}
+
+h1 {
+    color: red;
+}
