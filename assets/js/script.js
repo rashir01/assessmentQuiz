@@ -11,8 +11,6 @@ var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var multipleChoicesElement = document.getElementById('answers');
 var answerStatusEl = document.getElementById('answer-status');
-var finalScoreEl = document.getElementById('final-score');
-var testResults = document.getElementById('test-results');
 var container = document.getElementsByClassName('container');
 
 /*
@@ -145,7 +143,7 @@ function showScoresPage() {
 */
 function displayTestScore() {
     questionElement.textContent = "All Done!";
-    finalScoreEl.textContent = "You answered " + rightAnswers + " questions correctly";
+    answerStatusEl.textContent = "You answered " + rightAnswers + " questions correctly";
 }
 
 /*
