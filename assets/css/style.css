@@ -1,8 +1,8 @@
 body {
     text-align: center;
-
   }
-.container {
+
+  .container {
     max-width: 500px;
     margin: 0 auto;
 }
@@ -11,6 +11,8 @@ body {
     max-width: 400px;
     margin: auto;
 }
+
+/* styling for the answer list to show a differnt background color */
 ol li {
   display:table; 
   background-color: #c127f0;
@@ -18,18 +20,18 @@ ol li {
   padding: 10px;
   color: #fff;
   border-radius: 10%;
+}
 
-
-} 
+/* styling for the answer list to show different background color on hover */
 ol li:hover {
     background-color:#47035c;
 }
-
 
 h1 {
     color: rgb(18, 134, 243);
 }
 
+/* remove the bullets from the scores list */
 ul {
     list-style-type: none;
 }
