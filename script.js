@@ -13,7 +13,7 @@ var rightAnswers = 0;
 var secondsLeft = testTime;
 var rightAnswerRecord = 0;
 var timeInterval;
-var scores = ["test 1", "test 2", "test 3"];
+var scores =  JSON.parse(localStorage.getItem("scores")) || [];
 
 /*
     Function countdown
@@ -38,7 +38,7 @@ function stopTest() {
     answerStatusEl.textContent = "";
     mainEl.textContent = "";
     clearInterval(timeInterval);
-    checkHighScore();
+    displayTestScore();
     promptForInitials();
  }
 
@@ -49,19 +49,28 @@ function promptForInitials() {
     input.name = "initials";
     // input.defaultValue = "Enter initials";
     input.placeholder = "Enter initials";
-    console.log("input" + input);
-    console.log("testResults" + testResults);
+    //console.log("input" + input);
+    //console.log("testResults" + testResults);
     testResults.appendChild(input);
 
     let submitInitialsBtn = document.createElement("button");
     submitInitialsBtn.innerHTML = "Submit";
     submitInitialsBtn.onclick = function () {
-        initials = input.value;
-        scores.push (initials + " " + rightAnswers);
-        console.log(scores);
+        initials = input.value.trim();
+        addScore(initials, rightAnswers);
         showScoresPage();
     }
     testResults.appendChild(submitInitialsBtn);
+}
+
+function addScore(initials = "", rightAnswer = "0") {
+    scores.push (initials + " " + rightAnswers);
+    localStorage.setItem("scores", JSON.stringify(scores));
+}
+function clearScores() {
+    localStorage.removeItem("scores");
+    scores = JSON.parse(localStorage.getItem("scores")) || [];
+    showScoresPage();
 }
 
 function showScoresPage() {
@@ -77,10 +86,7 @@ function showScoresPage() {
 
     let clearScoresButton = document.createElement("button");
     clearScoresButton.innerHTML = "Clear Scores";
-    clearScoresButton.onclick = function() {
-        scores = [];
-        showScoresPage();
-    }
+    clearScoresButton.onclick = clearScores;
     let goBackButton = document.createElement("button");
     goBackButton.innerHTML = "Go Back";
     goBackButton.onclick = startTest;
@@ -89,8 +95,7 @@ function showScoresPage() {
 
 }
 
-function checkHighScore() {
-    console.log("inside check high score! ");
+function displayTestScore() {
     questionElement.textContent = "All Done!";
     finalScoreEl.textContent = "You answered " + rightAnswers + " questions correctly";
 }
