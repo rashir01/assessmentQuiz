@@ -29,9 +29,17 @@ This program starts a timed test to evaluate a candidate's knowledge of JavaScri
 
 The following screenshots demonstrate the apps functionality
 
-![user starts on the welcom page](./images/01-screenshot.png) 
-![user prsented with multiple choice questions and test timer](./images/02-screenshot.png)
-![user is able to store the score](./score.png)
+Welcome Screen
+
+![user starts on the welcom page](./assets/images/welcome.png) 
+
+Test Question
+
+![user prsented with multiple choice questions and test timer](./assets/images/question.png)
+
+Test Finished
+
+![user is able to store the score](./assets/images/testfinished.png)
 
 
 Use [Assessment Quiz](https://rashir01.github.io/assessmentQuiz/) to start the test
