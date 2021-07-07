@@ -104,7 +104,6 @@ function addScore(initials = "", rightAnswer = "0") {
 function clearScores() {
     localStorage.removeItem("scores");
     scores = JSON.parse(localStorage.getItem("scores")) || [];
-    console.log("inside of clearScores");
 }
 
 /*
