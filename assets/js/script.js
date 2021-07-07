@@ -11,6 +11,7 @@ var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var multipleChoicesElement = document.getElementById('answers');
 var answerStatusEl = document.getElementById('answer-status');
+var testResults = document.getElementById('test-results');
 var container = document.getElementsByClassName('container');
 
 /*
@@ -184,7 +185,6 @@ function clearAllElements() {
     questionElement.textContent = "";
     multipleChoicesElement.textContent = "";
     answerStatusEl.textContent = "";
-    finalScoreEl.textContent = "";
     testResults.innerHTML = "";
 }
 
