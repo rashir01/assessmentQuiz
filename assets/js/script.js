@@ -53,7 +53,7 @@ function stopTest() {
     answerStatusEl.textContent = "";
     mainEl.textContent = "";
     clearInterval(timeInterval);
-    displayTestScore();
+    displayTestScore(rightAnswers);
     promptForInitials();
  }
 
@@ -142,7 +142,7 @@ function showScoresPage() {
     input: none
     return: none
 */
-function displayTestScore() {
+function displayTestScore(rightAnswers) {
     questionElement.textContent = "All Done!";
     answerStatusEl.textContent = "You answered " + rightAnswers + " questions correctly";
 }
@@ -207,11 +207,11 @@ function clearQuestion () {
 /*
     Function processAnswer
     Purpose: determines if the answer selected is correct or not. Will increment the rightAnswers count if the answer is correct. Will decrease the remaining time if the answer is incorrect. 
-    input: none
+    input: the answer to compare 
     return: none
 */
-function processAnswer() {
-    if(questionsArray[count].rightAnswer === this.textContent) {
+function processAnswer(answer) {
+    if(questionsArray[count].rightAnswer === answer) {
         rightAnswers++;
         answerStatusEl.textContent = "Correct!";
     } else {
@@ -236,7 +236,7 @@ function addQuestion(questionNumber) {
         listItemEl.appendChild(MultipleChoiceAnswerTextNode);
         multipleChoicesElement.appendChild(listItemEl);
         listItemEl.onclick = function () {
-            processAnswer();
+            processAnswer(this.textContent);
             count++;
             if(count < questionsArray.length) { 
                 addQuestion(count);
