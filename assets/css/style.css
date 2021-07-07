@@ -12,17 +12,16 @@ body {
     margin: auto;
 }
 ol li {
-  /* max-width: 300px; */
   display:table; 
-  /* background-color: #c127f0; */
-  /* color: #fff;  */
-  /* margin-left: 30px; */
-  padding: 5px;
+  background-color: #c127f0;
+  margin: 5px 5px 5px 30px;
+  padding: 10px;
+  color: #fff;
+
 
 } 
 ol li:hover {
-    background-color:#c127f0;
-    color: #fff;
+    background-color:#47035c;
 }
 
 
