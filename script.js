@@ -1,5 +1,12 @@
+/*
+    global constants
+*/
 const testTime = 500;
 const timePenalty = 10;
+
+/*
+    global page element variables. Used to manipulate the DOM
+*/
 var mainEl = document.getElementById('main');
 var questionElement = document.getElementById('question');
 var multipleChoicesElement = document.getElementById('answers');
@@ -8,6 +15,9 @@ var finalScoreEl = document.getElementById('final-score');
 var testResults = document.getElementById('test-results');
 var container = document.getElementsByClassName('container');
 
+/*
+    Global variables used throughout the program 
+*/
 var count = 0;
 var rightAnswers = 0;
 var secondsLeft = testTime;
@@ -17,7 +27,7 @@ var scores =  JSON.parse(localStorage.getItem("scores")) || [];
 
 /*
     Function countdown
-    Purpose: Shows the timer countdown on the page
+    Purpose: Shows the timer countdown on the page. Stops the test when timer reaches 0
     input: none
     return: none
 */
@@ -33,6 +43,12 @@ function countdown() {
     }, 1000);
 }
 
+/*
+    Function: stopTest
+    Purpose: Called when the test is over. The test is over when all the questions are answered or the timer reaches zero
+    Input: none
+    return: none
+*/      
 function stopTest() {
     clearQuestion();
     answerStatusEl.textContent = "";
@@ -42,15 +58,18 @@ function stopTest() {
     promptForInitials();
  }
 
+/*
+    Function: promptForInitials
+    Purpose: prompts the user to enter intials in the textfield and button. Once the input is received, values are added to the scores array. After submission user is taken to the scores view
+    Input: none
+    return: none
+*/
 function promptForInitials() {
     var initials = "";
     var input = document.createElement("input");
     input.type = "text";
     input.name = "initials";
-    // input.defaultValue = "Enter initials";
     input.placeholder = "Enter initials";
-    //console.log("input" + input);
-    //console.log("testResults" + testResults);
     testResults.appendChild(input);
 
     let submitInitialsBtn = document.createElement("button");
@@ -63,16 +82,37 @@ function promptForInitials() {
     testResults.appendChild(submitInitialsBtn);
 }
 
+/*
+    Function: addScores
+    Purpose: adds a string to the scores array and persists it to the local storage
+    Inputs: 
+        initials = the user's initials 
+        score = the user's test score
+    return: none
+*/
 function addScore(initials = "", rightAnswer = "0") {
     scores.push (initials + " " + rightAnswers);
     localStorage.setItem("scores", JSON.stringify(scores));
 }
+
+/*
+    Function: clearScores
+    Purpose: used by the clear score button to remove the local storeage scores array and reinitialize it to an empty array
+    input: none 
+    return: none
+*/
 function clearScores() {
     localStorage.removeItem("scores");
     scores = JSON.parse(localStorage.getItem("scores")) || [];
-    showScoresPage();
+    console.log("inside of clearScores");
 }
 
+/*
+    Function: showScoresPage
+    Purpose: iterate through the scores array and display the initials and scores along with buttons to clear score or restart test
+    Input: none
+    return: none
+*/
 function showScoresPage() {
     clearAllElements();
     mainEl.textContent = "High Scores";
@@ -86,7 +126,10 @@ function showScoresPage() {
 
     let clearScoresButton = document.createElement("button");
     clearScoresButton.innerHTML = "Clear Scores";
-    clearScoresButton.onclick = clearScores;
+    clearScoresButton.onclick = function () {
+        clearScores();
+        showScoresPage();
+    }
     let goBackButton = document.createElement("button");
     goBackButton.innerHTML = "Go Back";
     goBackButton.onclick = startTest;
@@ -95,11 +138,23 @@ function showScoresPage() {
 
 }
 
+/*
+    Function displayTestScore
+    Purpose: inform the user that the test is done and how many answers they got right
+    input: none
+    return: none
+*/
 function displayTestScore() {
     questionElement.textContent = "All Done!";
     finalScoreEl.textContent = "You answered " + rightAnswers + " questions correctly";
 }
 
+/*
+    Function: startTest
+    Purpose: kickstarts the test by showing the welcome page with the start button. Also defines behavior for Start Test button onclick 
+    Input: none
+    return: none
+*/
 function startTest() {
     let container = document.getElementsByClassName('container');
     let welcome = document.getElementsByClassName('welcome');
@@ -118,6 +173,12 @@ function startTest() {
     mainEl.appendChild(startTestButton);
 }
 
+/*
+    Function clearAllElements
+    Purpose: clears all the html elements. used to start a new test 
+    input: none
+    return: none
+*/
 function clearAllElements() {
     count = 0;
     rightAnswers = 0;
@@ -130,6 +191,12 @@ function clearAllElements() {
     testResults.innerHTML = "";
 }
 
+/*
+    Function clearQuestions
+    Purpose: remove the current question from the display along with all of its choices
+    Input: none
+    return: none
+*/
 function clearQuestion () {
     questionElement.textContent = "";
     var listItemEl = multipleChoicesElement.lastElementChild; 
@@ -140,6 +207,12 @@ function clearQuestion () {
     
 }
 
+/*
+    Function processAnswer
+    Purpose: determines if the answer selected is correct or not. Will increment the rightAnswers count if the answer is correct. Will decrease the remaining time if the answer is incorrect. 
+    input: none
+    return: none
+*/
 function processAnswer() {
     if(questionsArray[count].rightAnswer === this.textContent) {
         rightAnswers++;
@@ -148,14 +221,14 @@ function processAnswer() {
         answerStatusEl.textContent = "Wrong!!"
         secondsLeft = secondsLeft - timePenalty;
     }
-    count++;
-    if(count < questionsArray.length) { 
-        addQuestion(count);
-    } else {
-        stopTest();
-    }
 }
 
+/*
+    Function: addQuestion
+    Purpose: displays the next question on the screen. Ends the test if there are no more qeustions
+    input: the question to display
+    return: none
+*/
 function addQuestion(questionNumber) {
     clearQuestion();
     questionElement.textContent = "Q " + (questionNumber + 1) + ". " + questionsArray[questionNumber].questionText;
@@ -165,7 +238,15 @@ function addQuestion(questionNumber) {
         var MultipleChoiceAnswerTextNode = document.createTextNode(currentPossibleAnswer);
         listItemEl.appendChild(MultipleChoiceAnswerTextNode);
         multipleChoicesElement.appendChild(listItemEl);
-        listItemEl.onclick = processAnswer;
+        listItemEl.onclick = function () {
+            processAnswer;
+            count++;
+            if(count < questionsArray.length) { 
+                addQuestion(count);
+            } else {
+                stopTest();
+            }
+        }
     }
 }
 
