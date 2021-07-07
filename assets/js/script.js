@@ -236,7 +236,7 @@ function addQuestion(questionNumber) {
         listItemEl.appendChild(MultipleChoiceAnswerTextNode);
         multipleChoicesElement.appendChild(listItemEl);
         listItemEl.onclick = function () {
-            processAnswer;
+            processAnswer();
             count++;
             if(count < questionsArray.length) { 
                 addQuestion(count);
