@@ -33,12 +33,6 @@ function countdown() {
     }, 1000);
 }
 
-function showWelcomePage() {
-
-    
-    
-}
-
 function stopTest() {
     clearQuestion();
     answerStatusEl.textContent = "";
