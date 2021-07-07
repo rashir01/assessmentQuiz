@@ -17,6 +17,7 @@ ol li {
   margin: 5px 5px 5px 30px;
   padding: 10px;
   color: #fff;
+  border-radius: 10%;
 
 
 } 
@@ -29,7 +30,13 @@ h1 {
     color: rgb(18, 134, 243);
 }
 
+ul {
+    list-style-type: none;
+}
+
 button {
-    padding: 5px;
+    padding: 5px 10px;
     margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
