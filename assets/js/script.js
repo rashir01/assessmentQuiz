@@ -33,7 +33,7 @@ var scores =  JSON.parse(localStorage.getItem("scores")) || [];
 function countdown() { 
     timeInterval = setInterval(function () {
         secondsLeft--;
-        mainEl.textContent = secondsLeft ;
+        mainEl.textContent = "Time left: " + secondsLeft ;
         
         if(secondsLeft < 0) {               
             mainEl.textContent = "Time's Up!!!!";
@@ -164,6 +164,7 @@ function startTest() {
     startTestButton.innerHTML = "Start Test";
     startTestButton.onclick = function () {
         clearAllElements();
+        mainEl.textContent = "Time left: " + secondsLeft ;
         countdown();
         addQuestion(0);
     }
