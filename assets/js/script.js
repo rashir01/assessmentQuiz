@@ -1,8 +1,8 @@
 /*
     global constants
 */
-const testTime = 500;
-const timePenalty = 10;
+const TEST_TIME = 500;
+const TIME_PENALTY = 10;
 
 /*
     global page element variables. Used to manipulate the DOM
@@ -19,7 +19,7 @@ var container = document.getElementsByClassName('container');
 */
 var count = 0;
 var rightAnswers = 0;
-var secondsLeft = testTime;
+var secondsLeft = TEST_TIME;
 var rightAnswerRecord = 0;
 var timeInterval;
 var scores =  JSON.parse(localStorage.getItem("scores")) || [];
@@ -133,7 +133,6 @@ function showScoresPage() {
     goBackButton.onclick = startTest;
     mainEl.appendChild(clearScoresButton);
     mainEl.appendChild(goBackButton);
-
 }
 
 /*
@@ -158,7 +157,7 @@ function startTest() {
     let welcome = document.getElementsByClassName('welcome');
     container.textContent = "";
     welcome.textContent = "Welcome to WebDev Quiz";
-    mainEl.textContent = "Try to answer as many questions as you can correctly. Keep in mind, wrong questions will have a time penalty of " + timePenalty + " seconds";
+    mainEl.textContent = "Try to answer as many questions as you can correctly. Keep in mind, wrong questions will have a time penalty of " + TIME_PENALTY + " seconds";
 
     let startTestButton = document.createElement("button");
     startTestButton.innerHTML = "Start Test";
@@ -181,7 +180,7 @@ function startTest() {
 function clearAllElements() {
     count = 0;
     rightAnswers = 0;
-    secondsLeft = testTime;
+    secondsLeft = TEST_TIME;
     mainEl.textContent = "";
     questionElement.textContent = "";
     multipleChoicesElement.textContent = "";
@@ -217,7 +216,7 @@ function processAnswer(answer) {
         answerStatusEl.textContent = "Correct!";
     } else {
         answerStatusEl.textContent = "Wrong!!"
-        secondsLeft = secondsLeft - timePenalty;
+        secondsLeft = secondsLeft - TIME_PENALTY;
     }
 }
 
@@ -246,6 +245,17 @@ function addQuestion(questionNumber) {
             }
         }
     }
+}
+
+/*
+    Function: handleShowResultsButton
+    Purpose: Stop the test and take the user to the results page when clicked
+    Input: none
+    return: none
+*/
+function handleShowResultsButton() {
+    stopTest();
+    showScoresPage();
 }
 
 startTest();
